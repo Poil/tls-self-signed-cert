@@ -61,7 +61,7 @@ resource "tls_locally_signed_cert" "leaf" {
 
   cert_request_pem = tls_cert_request.leaf[count.index].cert_request_pem
 
-  ca_key_algorithm   = "${!var.ca_override ? element(concat(tls_private_key.ca.*.algorithm, list("")), 0) : var.algorithm}"
+  ca_key_algorithm   = !var.ca_override ? element(concat(tls_private_key.ca.*.algorithm, list("")), 0) : var.algorithm
   ca_private_key_pem = var.ca_key_override == "" ? element(concat(tls_private_key.ca.*.private_key_pem, list("")), 0) : var.ca_key_override
   ca_cert_pem        = var.ca_cert_override == "" ? element(concat(tls_self_signed_cert.ca.*.cert_pem, list("")), 0) : var.ca_cert_override
 
